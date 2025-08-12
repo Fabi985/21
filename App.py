@@ -72,6 +72,10 @@ class App:
             print("Fuck we had an error")
     
     def Game_loop(self):
+        #TODO: 
+        #Add multiple rounds
+        #save choices for hitting or standing
+        #If both stand then finish round
         for i in range(2):
             for index, player in enumerate(self.Players):
                     random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)

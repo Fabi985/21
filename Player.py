@@ -7,7 +7,7 @@ class Player(object):
         self.health = 10
         self.turn = False
 
-        self.Private_card = []
+        self.Private_card = 0
         self.Public_cards = []
         self.Special = []
         

@@ -1,4 +1,5 @@
 from Player import *
+from Npc import *
 from Dealer import *
 import random
 from colorama import init, Fore, Back, Style
@@ -7,29 +8,11 @@ class App:
     def __init__(self):
         init()
         self.Player1 = Player()
-        self.Player2 = self.Select_opponent()
+        self.Player2 = Npc()
         self.Players = [self.Player1, self.Player2]
 
         self.Dealer = Dealer()
         pass
-
-    def Select_opponent(self):
-        print("""\nWelcome to Twenty one \n\nSelect an opponent: """)
-        while True:
-            print("""
-1 - NPC
-2 - IRL""")
-            User_choice = int(input("\n>>>"))
-            if User_choice == 1:
-                Player2 = "Npc()"
-                break
-            elif User_choice == 2:
-                Player2 = Player()
-                break
-            else:
-                print("Not an option")
-
-        return Player2
 
     def Stall(self):
         return input("\nPress [ENTER] to continue")
@@ -60,20 +43,24 @@ class App:
         self.Game_loop()
         
     def Display_info(self):
-        print(chr(27) + "[2J")
+        #print(chr(27) + "[2J")
         print("Game Info:\n")
         print(f"{self.Color_text("RED", f"Dealer name: {self.Dealer.name}, Hurt Power: {self.Dealer.Hurt_power}")}")
         for index, player in enumerate(self.Players):
             if player.turn == True:
                 if index == 0:
-                    print(f"{self.Color_text("GREEN", f"{player.name}'s turn")}")
+                    color = "GREEN"
                 elif index == 1:
-                    print(f"{self.Color_text("BLUE", f"{player.name}'s turn")}")
+                    color = "BLUE"
+                print(f"{self.Color_text(color, f"{player.name}'s turn")}")
         for index, player in enumerate(self.Players):
             if index == 0:
                 print(f"\n{self.Color_text("GREEN", f"Player name: {player.name}")}, \nHealth remaining: {player.health}")
+                print(f"{player.name}'s private card: {player.Private_card}, Public cards: {player.Public_cards} = {int(player.Private_card) + sum(player.Public_cards)}")
             elif index == 1:
                 print(f"\n{self.Color_text("BLUE", f"Player name: {player.name}")}, \nHealth remaining: {player.health}")
+                print(f"{player.name}'s private card: ???({player.Private_card}), Public cards: {player.Public_cards} = ???+{sum(player.Public_cards)}({int(player.Private_card) + sum(player.Public_cards)})")
+            
     
     def Choose_starter_turn(self):
         choice = random.randint(1,2)
@@ -85,9 +72,42 @@ class App:
             print("Fuck we had an error")
     
     def Game_loop(self):
+        for i in range(2):
+            for index, player in enumerate(self.Players):
+                    random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
+                    if i == 0:
+                        player.Private_card = random_card_from_dealer
+                    elif i == 1:
+                        player.Public_cards.append(random_card_from_dealer)
+                    self.Dealer.Dealer_cards.remove(random_card_from_dealer)
+
         while self.Player1.health > 0 or self.Player2.health > 0:
             self.Display_info()
+            if self.Player1.turn == True:
+                print(f"{self.Color_text("GREEN", f"{self.Player1.name} pick an option:")}")
+                print("1 - Hit\n2 - Stand")
+                choice = int(input("\n>>>"))
+                if choice == 1:
+                    random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
+                    self.Player1.Public_cards.append(random_card_from_dealer)
+                    self.Dealer.Dealer_cards.remove(random_card_from_dealer)
+                elif choice == 2:
+                    pass
+                else:
+                    print("error 1")
+
+                self.Player1.turn = False
+                self.Player2.turn = True
+                pass
+            elif self.Player2.turn == True:
+                print(f"{self.Color_text("BLUE", f"{self.Player2.name} pick an option:")}")
+
+                self.Player2.turn = False
+                self.Player1.turn = True
+
+            print(f"\nDealer cards left: {self.Dealer.Dealer_cards}")
             self.Stall()
+
 
 
     

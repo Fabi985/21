@@ -3,11 +3,11 @@ class Player(object):
         self.ID = 0
         self.TYPE = "player"
 
-        self.name = "Hoffman"
+        self.name = "Clancy"
         self.health = 10
         self.turn = False
 
-        self.Private_cards = []
+        self.Private_card = []
         self.Public_cards = []
         self.Special = []
         

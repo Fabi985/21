@@ -6,6 +6,7 @@ class Player(object):
         self.name = "Clancy"
         self.health = 10
         self.turn = False
+        self.stand = False
 
         self.Private_card = 0
         self.Public_cards = []
@@ -13,6 +14,7 @@ class Player(object):
         
         self.Private_total = 0
         self.Public_total = 0
+        self.total_cards = 0
     
     def Rename(self):
         #TODO: Redo this so they have to change theyre name

@@ -75,7 +75,6 @@ class App:
         #TODO: 
         #Add multiple rounds
         #save choices for hitting or standing
-        #If both stand then finish round
         for i in range(2):
             for index, player in enumerate(self.Players):
                     random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
@@ -85,40 +84,66 @@ class App:
                         player.Public_cards.append(random_card_from_dealer)
                     self.Dealer.Dealer_cards.remove(random_card_from_dealer)
 
-        while self.Player1.health > 0 or self.Player2.health > 0:
+        while (self.Player1.stand == False and self.Player2.stand == False):
             self.Display_info()
+            print(len(self.Dealer.Dealer_cards))
+            print(self.Player1.stand)
+            print(self.Player2.stand)
+            for index, player in enumerate(self.Players):
+                player.Private_total = player.Private_card
+                player.Public_total = sum(player.Public_cards)
+                player.total_cards = sum(player.Public_cards) + player.Private_card
             if self.Player1.turn == True:
                 while True:
-                    try:
-                        print(f"{self.Color_text("GREEN", f"{self.Player1.name} pick an option:")}")
-                        print("1 - Hit\n2 - Stand")
-                        choice = int(input("\n>>>"))
-                        if choice == 1:
-                            random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
-                            self.Player1.Public_cards.append(random_card_from_dealer)
-                            self.Dealer.Dealer_cards.remove(random_card_from_dealer)
-                            break
-                        elif choice == 2:
-                            pass
-                            break
-                        else:
-                            print("error 1")
-                    except:
-                        print("Not a thing try again")
+                    print(f"{self.Color_text("GREEN", f"{self.Player1.name} pick an option:")}")
+                    print("1 - Hit\n2 - Stand")
+                    choice = int(input("\n>>>"))
+                    if choice == 1:
+                        random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
+                        self.Player1.Public_cards.append(random_card_from_dealer)
+                        self.Dealer.Dealer_cards.remove(random_card_from_dealer)
+                        break
+                    elif choice == 2:
+                        self.Player1.stand = True
+                        break
+                    else:
+                        print("error 1")
 
                 self.Player1.turn = False
                 self.Player2.turn = True
-                pass
             elif self.Player2.turn == True:
                 #TODO: get the npc to choose
                 print(f"{self.Color_text("BLUE", f"{self.Player2.name} pick an option:")}")
+                choice = self.Player2.Choose(self.Player1.Public_total)
+                if choice == 1:
+                    random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
+                    self.Player2.Public_cards.append(random_card_from_dealer)
+                    self.Dealer.Dealer_cards.remove(random_card_from_dealer)
+                elif choice == 2:
+                    self.Player2.stand = True
 
                 self.Player2.turn = False
                 self.Player1.turn = True
 
             print(f"\nDealer cards left: {self.Dealer.Dealer_cards}")
-            self.Stall()
+        
+        self.Check_cards()
+        self.End_round()
 
+    def Check_cards(self):
+        player_1_total = self.Player1.total_cards
+        player_2_total = self.Player2.total_cards
+        #TODO:make lucas baker announce winner and loser
+        #TODO: create elif statments for winners and loser when not drunk 
+        print(f"Total player1: {player_1_total}, total player2: {player_2_total}")
+        pass
+    
+    def End_round(self):
+        # self.Dealer.Hurt_power += 2
+        # self.Game_loop()
+        print("Testing gahh")
+        self.Stall()
+        pass
 
 
     

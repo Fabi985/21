@@ -1,6 +1,6 @@
 class Dealer(object):
     def __init__(self):
-        self.ID = "dealer" 
+        self.ID = 0
         self.TYPE = "dealer" 
         self.name = "LCS Baker"
         self.Hurt_power = 1

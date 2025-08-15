@@ -21,11 +21,11 @@ class Npc(object):
         player_1_total = player1_public_cards
         player_2_total = self.total_cards
         print(player_1_total, player_2_total)
-        if player_2_total < 21:
+        if 17 <= player_2_total <= 21:
+            choice = 2
+        elif player_2_total < 21:
             choice = 1
         elif player_2_total > 21 or player_2_total == 21:
-            choice = 2
-        elif player_2_total >= 17 and player_2_total < 21:
             choice = 2
 
         return choice

@@ -8,7 +8,7 @@ class Npc(object):
         self.turn = False
         self.stand = False
 
-        self.Private_card = []
+        self.Private_card = 0
         self.Public_cards = []
         self.Special = []
         
@@ -24,6 +24,8 @@ class Npc(object):
         if player_2_total < 21:
             choice = 1
         elif player_2_total > 21 or player_2_total == 21:
+            choice = 2
+        elif player_2_total >= 17 and player_2_total < 21:
             choice = 2
 
         return choice

@@ -56,13 +56,15 @@ class App:
                 elif index == 1:
                     color = "BLUE"
                 print(f"{self.Color_text(color, f"{player.name}'s turn")}")
+            else:
+                pass
         for index, player in enumerate(self.Players):
             if index == 0:
                 print(f"\n{self.Color_text("GREEN", f"Player name: {player.name}")}, \nHealth remaining: {player.health}")
                 print(f"{player.name}'s private card: {player.Private_card}, Public cards: {player.Public_cards}\ntotal: {int(player.Private_card) + sum(player.Public_cards)}/21")
             elif index == 1:
                 print(f"\n{self.Color_text("BLUE", f"Player name: {player.name}")}, \nHealth remaining: {player.health}")
-                print(f"{player.name}'s private card: ???({player.Private_card}), Public cards: {player.Public_cards}\ntotal: ???+{sum(player.Public_cards)}({int(player.Private_card) + sum(player.Public_cards)})/21")
+                print(f"{player.name}'s private card: ???, Public cards: {player.Public_cards}\ntotal: ???+{sum(player.Public_cards)}/21")
             
     
     def Choose_starter_turn(self):
@@ -76,9 +78,6 @@ class App:
     
     def Game_loop(self):
         self.Game_loop_turns = 0
-        #TODO: 
-        #Add multiple rounds
-        #save choices for hitting or standing
         for i in range(2):
             for index, player in enumerate(self.Players):
                     random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
@@ -90,10 +89,6 @@ class App:
 
         while self.Player1.stand == False or self.Player2.stand == False:
             self.Display_info()
-            print(f"\nDealer cards left: {self.Dealer.Dealer_cards}")
-            print(len(self.Dealer.Dealer_cards))
-            print(self.Player1.stand)
-            print(self.Player2.stand)
             for index, player in enumerate(self.Players):
                 player.Private_total = player.Private_card
                 player.Public_total = sum(player.Public_cards)
@@ -121,7 +116,6 @@ class App:
                 #TODO: get the npc to choose
                 print(f"{self.Color_text("BLUE", f"{self.Player2.name} pick an option:")}")
                 choice = self.Player2.Choose(self.Player1.Public_total)
-                print(f"NPC choice: {choice}")
                 if choice == 1:
                     random_card_from_dealer = random.choice(self.Dealer.Dealer_cards)
                     self.Player2.Public_cards.append(random_card_from_dealer)
@@ -136,6 +130,8 @@ class App:
                 self.Player1.turn = True
             
             self.Game_loop_turns += 1
+            self.Display_info()
+            self.Stall()
         
         self.Check_cards()
         self.End_round()
@@ -191,7 +187,6 @@ class App:
             player.Private_total = 0
             player.Public_total = 0
             player.total_cards = 0
-        print(f"Testing gahh\n\n{self.Dealer.Dealer_cards}, {self.Dealer.Hurt_power}")
         self.Stall()
         self.Check_health()
         if self.Game_running == True:

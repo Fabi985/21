@@ -13,6 +13,7 @@ class App:
 
         self.Dealer = Dealer()
         self.Game_round = 0
+        self.Game_running = True
         pass
 
     def Stall(self):
@@ -193,12 +194,28 @@ class App:
         print(f"Testing gahh\n\n{self.Dealer.Dealer_cards}, {self.Dealer.Hurt_power}")
         self.Stall()
         self.Check_health()
-        self.Game_loop()
+        if self.Game_running == True:
+            self.Game_loop()
+        elif self.Game_running == False:
+            self.Game_end()
     
     def Check_health(self):
         #TODO: if a player has < 0 health then the game has ended and they lost
+        if self.Player1.health <= 0:
+            print("Player1 died lmao")
+            self.Game_running = False
+        elif self.Player2.health <= 0:
+            print("Player2 died lmao")
+            self.Game_running = False
+        elif self.Player1.health <= 0 and self.Player2.health <= 0:
+            print("yall both died, fuck you")
+            self.Game_running = False
+        else:
+            self.Game_running = True
         pass
 
+    def Game_end(self):
+        print("Game ended")
 
     
 if __name__ == "__main__":

@@ -23,10 +23,10 @@ class Npc(object):
         print(player_1_total, player_2_total)
         if 17 <= player_2_total <= 21:
             choice = 2
-        elif player_2_total < 21:
-            choice = 1
         elif player_2_total > 21 or player_2_total == 21:
             choice = 2
+        elif player_2_total < 21:
+            choice = 1
 
         return choice
     
